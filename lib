@@ -1,0 +1,6 @@
+<script>start("/Users/supriyamalla/Documents/flask/.venv/lib/");</script>
+<script>onHasParentDirectory();</script>
+<script>addRow("disease","disease",1,448,"448 B",1739413542,"2/13/25, 8:10:42 AM");</script>
+<script>addRow("python3.12","python3.12",1,96,"96 B",1738504266,"2/2/25, 7:36:06 PM");</script>
+<script>addRow(".DS_Store",".DS_Store",0,6148,"6.0 kB",1738596194,"2/3/25, 9:08:14 PM");</script>
+<script>addRow("recipes.csv","recipes.csv",0,704213964,"672 MB",1609150332,"12/28/20, 3:57:12 PM");</script>
