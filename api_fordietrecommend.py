@@ -42,7 +42,7 @@ default_max_list = {
 
 # Load the large dataset (replace with your actual file path)
 data_chunks = []
-chunksize = 500  # Process 10,000 rows at a time
+chunksize = 10000  # Process 10,000 rows at a time
 for chunk in pd.read_csv("/Users/Pritush/PycharmProjects/flask/.venv/lib/recipes.csv", chunksize=chunksize):
     data_chunks.append(chunk)
 data = pd.concat(data_chunks, ignore_index=True)
@@ -99,10 +99,6 @@ def recommend_recipes(user_input):
     extracted_data = data.copy()
     for column, maximum in zip(extracted_data.columns[6:15], max_nutritional_values):
         extracted_data = extracted_data[extracted_data[column] < maximum]
-
-
-
-
     # Get the input data to compare (just an example of comparison)
     recommended_indices = pipeline.transform(max_nutritional_values)[0]
     recommendations = extracted_data.iloc[recommended_indices]
@@ -127,35 +123,34 @@ def recommend_recipes(user_input):
 @app.route('/recommend', methods=['GET','POST'])
 
 def recommend():
-  try:# Get data from Flutter app
+  # Get data from Flutter app
     user_input = request.get_json()
     #print(user_input)
-
-
-
-
-    # Get recommendations
+  # Get recommendations
     recommendations = recommend_recipes(user_input)
 
-
-    print("Recommendation ",recommendations)
-    subset=pd.DataFrame(recommendations)
-    print(subset.iloc[:10, [0, 1]])
-
-
-    print("josnified data :", jsonify(recommendations.to_dict(orient='records')))
     if isinstance(recommendations, pd.DataFrame):
-        print("josnified data :",jsonify(recommendations.to_dict(orient='records')))
-    # elif isinstance(recommendations, list):
-    #     recommendations = recommendations[:10]
-    #     print("Recommendation:", recommendations)
+        # Select the top 10 rows and specific columns
+        top_10_subset = recommendations.sample(n=10, random_state=None).iloc[:, [0, 1, 15]]
+
+        print("Top 10 subset:\n", top_10_subset)
+
+        # Jsonify the top 10 rows
+        print("Jsonified data:", jsonify(top_10_subset.to_dict(orient='records')))
+
+        # Return top 10 recommendations as JSON
+        return jsonify(top_10_subset.to_dict(orient='records'))
+
+        # Handling case when recommendations is a list
+    elif isinstance(recommendations, list):
+        recommendations = recommendations[:10]
+        print("Recommendations:", recommendations)
 
         # Send recommendations as JSON
-        return jsonify(recommendations.iloc[:10, [0, 1]])
-  except Exception as e:
+        return jsonify(recommendations)
 
-    return jsonify({"message": f"Error {e} "}), 500
+
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000, debug=True)

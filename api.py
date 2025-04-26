@@ -59,7 +59,9 @@ pd.set_option('future.no_silent_downcasting', True)
 # Ensure column names are stripped
 df.columns = df.columns.str.strip()
 print(df.head())
-print(df.columns.tolist())  # Ensure the column is in the list
+print(df.columns.tolist())
+# Ensure the column is in the list
+#l1 is the symptoms list
 X = df[l1]
 y = df[["prognosis"]]
 
@@ -102,4 +104,4 @@ def getprediction():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=2000, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)
