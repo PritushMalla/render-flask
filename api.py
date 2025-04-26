@@ -37,7 +37,7 @@ app = Flask(__name__)
 
 # Load your training data
 # Assume df is your pre-loaded training dataset
-df = pd.read_csv('/Users/Pritush/PycharmProjects/flask/disease/training.csv')  # replace with your data source
+df = pd.read_csv('disease/training.csv')  # replace with your data source
 
 df.replace({'prognosis': {'Fungal infection': 0, 'Allergy': 1, 'GERD': 2, 'Chronic cholestasis': 3, 'Drug Reaction': 4,
                           'Peptic ulcer diseae': 5, 'AIDS': 6, 'Diabetes ': 7, 'Gastroenteritis': 8,
